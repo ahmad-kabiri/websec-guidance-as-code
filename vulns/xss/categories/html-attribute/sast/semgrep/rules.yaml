@@ -1,0 +1,7 @@
+rules:
+  - id: js-inline-handler-xss
+    message: "Inline event handlers are dangerous and disallowed under strict CSP"
+    severity: WARNING
+    languages: [html, javascript, typescript]
+    patterns:
+      - pattern: "<... on$EVT=... >"

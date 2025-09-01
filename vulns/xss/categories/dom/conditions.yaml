@@ -1,0 +1,4 @@
+slug: dom
+vulnerability_family: xss
+preconditions: {}
+exploitability_rules: []

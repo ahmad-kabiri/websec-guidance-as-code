@@ -1,0 +1,4 @@
+slug: stacked-queries
+vulnerability_family: sqli
+preconditions: {}
+exploitability_rules: []

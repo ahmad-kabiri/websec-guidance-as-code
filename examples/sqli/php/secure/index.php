@@ -1,0 +1,1 @@
+<?php $db=new PDO('sqlite::memory:');$db->exec('CREATE TABLE users(id INTEGER PRIMARY KEY,name TEXT)');$db->exec("INSERT INTO users(name) VALUES ('alice'),('bob')");$q=$_GET['name']??'';$stmt=$db->prepare('SELECT * FROM users WHERE name LIKE ?');$stmt->execute(['%'.$q.'%']);echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));

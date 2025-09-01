@@ -1,0 +1,6 @@
+includes:
+  - vulns/xss/**
+  - vulns/sqli/**
+  - vulns/proto-pollution-client/**
+  - vulns/proto-pollution-server/**
+notes: add TT/CSP, prototype pollution

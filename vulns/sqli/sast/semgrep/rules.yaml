@@ -1,0 +1,27 @@
+rules:
+  - id: js-sqli-taint
+    message: "User input flows into SQL query string (JS)"
+    severity: ERROR
+    languages: [javascript, typescript]
+    mode: taint
+    pattern-sources: [ {pattern: req.$PARAM}, {pattern: request.$PARAM} ]
+    pattern-sinks: [ {pattern: $DB.query($QSTR)}, {pattern: $DB.execute($QSTR)} ]
+    pattern: "$QSTR = $A + $B"
+  - id: py-sqli-taint
+    message: "User input flows into SQL query string (Python)"
+    severity: ERROR
+    languages: [python]
+    mode: taint
+    pattern-sources: [ {pattern: request.args[$X]}, {pattern: request.form[$X]} ]
+    pattern-sinks: [ {pattern: cursor.execute($QSTR)} ]
+    pattern-either:
+      - pattern: "$QSTR = f"...{...}...""
+      - pattern: "$QSTR = "..."+..."
+  - id: php-sqli-taint
+    message: "User input flows into SQL query string (PHP)"
+    severity: ERROR
+    languages: [php]
+    mode: taint
+    pattern-sources: [ {pattern: $_GET[$X]}, {pattern: $_POST[$X]} ]
+    pattern-sinks: [ {pattern: mysqli_query(..., $QSTR)}, {pattern: $PDO->query($QSTR)} ]
+    pattern: "$QSTR = ... . ..."

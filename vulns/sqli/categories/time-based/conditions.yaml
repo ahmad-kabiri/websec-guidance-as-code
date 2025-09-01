@@ -1,0 +1,4 @@
+slug: time-based
+vulnerability_family: sqli
+preconditions: {}
+exploitability_rules: []

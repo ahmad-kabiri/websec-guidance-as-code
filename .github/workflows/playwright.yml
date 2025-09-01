@@ -1,0 +1,17 @@
+name: Playwright DAST
+on: { workflow_dispatch: { inputs: { target: { description: 'Base URL', required: true } } } }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '18' }
+      - name: Install Playwright
+        run: |
+          npm i -D @playwright/test
+          npx playwright install --with-deps
+      - name: Run tests
+        env:
+          SQLI_ENDPOINT: ${{ github.event.inputs.target }}/search?name=
+        run: npx playwright test

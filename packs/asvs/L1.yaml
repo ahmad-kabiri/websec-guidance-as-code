@@ -1,0 +1,6 @@
+includes:
+  - vulns/xss/**
+  - vulns/sqli/**
+excludes:
+  - "**/examples/**"
+notes: baseline coverage

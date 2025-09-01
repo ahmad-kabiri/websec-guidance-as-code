@@ -1,0 +1,4 @@
+slug: union-based
+vulnerability_family: sqli
+preconditions: {}
+exploitability_rules: []

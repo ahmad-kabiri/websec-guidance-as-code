@@ -1,0 +1,4 @@
+slug: html-attribute
+vulnerability_family: xss
+preconditions: {}
+exploitability_rules: []

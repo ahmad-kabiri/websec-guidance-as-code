@@ -1,0 +1,14 @@
+rules:
+  - id: js-dom-xss-taint
+    message: "DOM XSS: tainted data flows into a DOM sink"
+    severity: ERROR
+    languages: [javascript, typescript]
+    mode: taint
+    pattern-sources:
+      - pattern: req.$REQ
+      - pattern: location.$ANY
+      - pattern: document.location
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $EL.innerHTML = $DATA
+      - pattern: $EL.insertAdjacentHTML(..., $DATA, ...)

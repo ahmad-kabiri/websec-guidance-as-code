@@ -1,0 +1,8 @@
+rules:
+  - id: js-javascript-url-xss
+    message: "javascript: URL used in href/src"
+    severity: WARNING
+    languages: [html, javascript, typescript]
+    pattern-either:
+      - pattern: "<a href=\"javascript:$X\">"
+      - pattern: "$EL.href = \"javascript:\" + $X"
