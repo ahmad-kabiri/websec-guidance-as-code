@@ -1,0 +1,18 @@
+rules:
+  - id: node-sequelize-raw-query-concat
+    message: "Node SQLi: sequelize.query with concatenated SQL"
+    severity: ERROR
+    languages: [javascript, typescript]
+    patterns:
+      - pattern: |
+          const $SQL = $A + $B
+      - pattern: |
+          $DB.query($SQL, ...)
+    metadata: { cwe: "89", framework: "sequelize" }
+  - id: node-prisma-raw-unsafe
+    message: "Node SQLi: Prisma $queryRawUnsafe usage"
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern: |
+      prisma.$queryRawUnsafe($SQL, ...)
+    metadata: { cwe: "89", framework: "prisma" }

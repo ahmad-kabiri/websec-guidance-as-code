@@ -1,19 +1,5 @@
 site_name: WebSec Guidance-as-Code
-theme:
-  name: material
-  features: [navigation.sections, navigation.expand, content.code.copy]
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
-  - Usage in CI/CD: usage-ci.md
-  - Authoring Guide: authoring.md
-  - Taxonomy (Vectors): vectors.md
-  - Packs:
-      - ASVS Level 1: packs/asvs-l1.md
-      - ASVS Level 2: packs/asvs-l2.md
-      - ASVS Level 3: packs/asvs-l3.md
-  - Catalog: catalog.md
-docs_dir: docs
-markdown_extensions:
-  - toc: { permalink: true }
-  - admonition
+
+repo_url: https://github.com/ahmad-kabiri/websec-guidance-as-code

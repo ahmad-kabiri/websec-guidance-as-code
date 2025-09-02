@@ -1,0 +1,13 @@
+rules:
+  - id: rails-sqli-where-interpolation
+    message: "Rails SQLi: string interpolation in where/find_by_sql"
+    severity: ERROR
+    languages: [ruby]
+    pattern-either:
+      - pattern: |
+          $MODEL.where("#{...}")
+      - pattern: |
+          $MODEL.find_by_sql("#{...}")
+      - pattern: |
+          $MODEL.where("..." + $X)
+    metadata: { cwe: "89" }

@@ -1,0 +1,22 @@
+name: SBOM Policy (CycloneDX + Trivy)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  sbom-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+      - name: Scan SBOM with Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: sbom
+          input: sbom.cdx.json
+          severity: HIGH,CRITICAL
+          exit-code: '1'

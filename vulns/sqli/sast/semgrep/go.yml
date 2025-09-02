@@ -1,0 +1,13 @@
+rules:
+  - id: go-sqli-fmt-sprintf
+    message: "Go SQLi: fmt.Sprintf used to build SQL for database/sql"
+    severity: ERROR
+    languages: [go]
+    patterns:
+      - pattern: |
+          $Q := fmt.Sprintf($FMT, ...)
+      - pattern-either:
+          - pattern: database/sql.$DB.Query($Q, ...)
+          - pattern: database/sql.$DB.QueryContext(..., $Q, ...)
+          - pattern: database/sql.$DB.Exec($Q, ...)
+    metadata: { cwe: "89" }
