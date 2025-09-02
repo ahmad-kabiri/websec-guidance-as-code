@@ -1,0 +1,37 @@
+rules:
+  - id: csharp-sqli-aspnetcore-ef-fromsqlraw
+    message: "C# SQLi (ASP.NET Core): tainted Request.Query used in EF Core FromSqlRaw"
+    severity: ERROR
+    languages: [csharp]
+    mode: taint
+    pattern-sources:
+      - pattern: |
+          Microsoft.AspNetCore.Http.HttpRequest $R;
+          $R.Query[$PARAM]
+      - pattern: |
+          Microsoft.AspNetCore.Http.IQueryCollection $Q;
+          $Q[$PARAM]
+    pattern-sinks:
+      - pattern-either:
+          - pattern: |
+              Microsoft.EntityFrameworkCore.DbSet<$T> $S;
+              $S.FromSqlRaw($SQL, ...)
+          - pattern: |
+              Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FromSqlRaw($QRY, $SQL, ...)
+          - pattern: |
+              $ANY.FromSqlRaw($SQL, ...)
+    pattern-either:
+      - pattern: |
+          $SQL = $A + $B
+      - pattern: |
+          $SQL = string.Format($FMT, ...)
+      - pattern: |
+          $SQL = $INTERP
+        metavariable-regex:
+          metavariable: $INTERP
+          regex: "^\$\".*\{.+\}.*\"$"
+    metadata:
+      cwe: "89"
+      references:
+        - "https://learn.microsoft.com/ef/core/querying/raw-sql"
+        - "https://owasp.org/www-community/attacks/SQL_Injection"

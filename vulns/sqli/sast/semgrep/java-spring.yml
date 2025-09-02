@@ -1,0 +1,29 @@
+rules:
+  - id: java-sqli-spring-jdbctemplate-concat
+    message: "Java SQLi (Spring): @RequestParam flows into JdbcTemplate.query* via string concatenation"
+    severity: ERROR
+    languages: [java]
+    mode: taint
+    pattern-sources:
+      - pattern: |
+          @org.springframework.web.bind.annotation.RequestParam $TYPE $SRC
+      - pattern: |
+          @org.springframework.web.bind.annotation.RequestParam(...) $TYPE $SRC
+    pattern-sinks:
+      - pattern-either:
+          - pattern: |
+              org.springframework.jdbc.core.JdbcTemplate $J;
+              $J.query($SQL, ...)
+          - pattern: |
+              org.springframework.jdbc.core.JdbcTemplate $J;
+              $J.queryForObject($SQL, ...)
+          - pattern: |
+              org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate $N;
+              $N.getJdbcOperations().query($SQL, ...)
+    pattern: |
+      $SQL = $A + $B
+    metadata:
+      cwe: "89"
+      references:
+        - "https://owasp.org/www-community/attacks/SQL_Injection"
+        - "https://docs.spring.io/spring-framework/reference/data-access/jdbc.html"
