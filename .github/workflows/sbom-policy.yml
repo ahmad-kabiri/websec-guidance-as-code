@@ -14,7 +14,7 @@ jobs:
           format: cyclonedx-json
           output-file: sbom.cdx.json
       - name: Scan SBOM with Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.33.0
         with:
           scan-type: sbom
           input: sbom.cdx.json
